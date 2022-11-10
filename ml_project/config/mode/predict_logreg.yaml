@@ -1,0 +1,6 @@
+_target_ : src.model.predictor.Predictor
+data: ./data/raw/heart_cleveland_upload.csv
+load_from: ./models/log_reg.pkl
+save_predictions_to:
+  dir: ./predictions/
+  filename: pred_log_reg.csv
