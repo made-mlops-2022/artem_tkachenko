@@ -55,7 +55,6 @@ def main():
     new_df = pd.DataFrame()
     for col in df.columns:
         new_df[col] = answer[col]
-    print(f"Writing output to {filename}")
     new_df.to_csv(filename)
 
 
