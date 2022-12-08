@@ -19,7 +19,6 @@ class Trainer:
     data: str
     model: 'typing.Any'
     save_to: str
-    #logger: logging.Logger
 
     def __call__(self, *args, **kwargs):
         return self.fit()
