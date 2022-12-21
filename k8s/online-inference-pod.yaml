@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mlops-k8s-pod
+spec:
+  containers:
+  - name: hw02cont
+    image: aitkachenko/hw02:v1
+    ports:
+    - containerPort: 18000
