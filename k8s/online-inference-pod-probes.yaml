@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mlops-k8s-pod
+spec:
+  containers:
+    - name: hw02contv3
+      image: aitkachenko/hw02:v3
+      ports:
+        - containerPort: 18000
+      resources:
+        requests:
+          memory: "256Mi"
+          cpu: "125m"
+        limits:
+          memory: "512Mi"
+          cpu: "750m"
+      livenessProbe:
+        httpGet:
+          path: /health
+          port: 18000
+        initialDelaySeconds: 45
+        periodSeconds: 5
+        failureThreshold: 3
+      readinessProbe:
+        httpGet:
+          path: /ready
+          port: 18000
+        initialDelaySeconds: 20
+        periodSeconds: 5
+        failureThreshold: 5

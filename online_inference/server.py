@@ -2,12 +2,15 @@ import os
 import pickle
 import uvicorn
 import logging
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
 import pandas as pd
 
 from typing import Literal
+
+import time
+start_time = time.time()
 
 app = FastAPI()
 model = None
@@ -66,9 +69,25 @@ def predict(request: MedicalData):
 def root():
     return {"message": "service is up"}
 
+@app.get("/ok", status_code=200)
+def ok():
+    return True
+
+@app.get("/ready", status_code=200)
+def ready() -> bool:
+    cur_time = time.time()
+    if cur_time - start_time < 30.0:
+        raise HTTPException(status_code=503)
+    #return (model is not None) and (transformer is not None)
+    return True
+
 @app.get("/health", status_code=200)
 def health() -> bool:
-    return (model is not None) and (transformer is not None)
+    cur_time = time.time()
+    if cur_time - start_time < 35.0 or cur_time - start_time > 120.0:
+        raise HTTPException(status_code=503)
+    #return (model is not None) and (transformer is not None)
+    return True
 
 if __name__ == "__main__":
     uvicorn.run("server:app", host="0.0.0.0", port=os.getenv("PORT", 18000))

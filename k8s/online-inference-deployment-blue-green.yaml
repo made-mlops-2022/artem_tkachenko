@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mlops-k8s-pod-deployment-blue-green
+  labels:
+    app: online-inference
+spec:
+  replicas: 3
+  selector:
+    matchLabels: 
+      app: online-inference
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 3
+      maxUnavailable: 0
+  template:
+    metadata:
+      name: online-inference-deployment-blue-green
+      labels:
+        app: online-inference
+    spec:
+      containers:
+        - name: hw02contv3
+          image: aitkachenko/hw02:v3
+          ports:
+            - containerPort: 18000
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "125m"
+            limits:
+              memory: "512Mi"
+              cpu: "750m"
