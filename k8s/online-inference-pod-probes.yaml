@@ -5,7 +5,7 @@ metadata:
 spec:
   containers:
     - name: hw02contv3
-      image: aitkachenko/hw02:v3
+      image: aitkachenko/hw02:v6
       ports:
         - containerPort: 18000
       resources:
